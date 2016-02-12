@@ -28,10 +28,10 @@ RUN apt-get update && apt-get install -y -qq \
     vim 
 
 # install Nvidia
-RUN apt-get install -y -qq binutils mesa-utils
-RUN add-apt-repository ppa:xorg-edgers/ppa && apt-get update
-RUN apt-get install -y -qq nvidia-352 nvidia-settings
-RUN ldconfig
+# RUN apt-get install -y -qq binutils mesa-utils
+# RUN add-apt-repository ppa:xorg-edgers/ppa && apt-get update
+# RUN apt-get install -y -qq nvidia-352 nvidia-settings
+# RUN ldconfig
  
 # install OpenNI 
 ADD resources/OpenNI-Bin-Dev-Linux-x64-v1.5.7.10.tar.bz2 /tmp
@@ -87,17 +87,17 @@ RUN  cd /home/docker/rgbdemo \
     && ./linux_configure.sh \
     && cd build \
     && make
- 
- 
-# get rules.d file
-#/etc/udev/rules.d/55-primesense-usb.rules
- 
- 
+
+ENV USER docker 
+USER docker
+
+# Change entrypoint to run provided script 
+COPY entrypoint.sh /entrypoint.sh
+# RUN sudo chmod +x /entrypoint.sh ; sudo chown docker /entrypoint.sh ; 
+
 ENV DISPLAY :0
 #because some gui widgets were not loading
 ENV QT_X11_NO_MITSHM 1
  
-USER docker
-#CMD xterm
+#ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]
-#CMD NiViewer

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+HERE=`pwd`
+
+if [ ! -e resources/NITE-Bin-Linux-x64-v1.5.2.23.tar.bz2 ]
+then
+  if [ ! -e resources/NITE-Bin-Linux-x64-v1.5.2.23.tar.bz2.part_aa ]
+  then
+    echo "Couldn't find NITE installation files"
+    exit 1
+  else
+    cd resources
+    cat NITE-Bin-Linux-x64-v1.5.2.23.tar.bz2.part_* | tar xz
+    cd $HERE
+  fi
+fi
+if [ ! -e resources/OpenNI-Bin-Dev-Linux-x64-v1.5.7.10.tar.bz2 ]
+then
+  echo "Couldn't find OpenNi installation files"
+  exit 1
+fi
+if [ ! -e resources/Sensor-Bin-Linux-x64-v5.1.6.6.tar.bz2 ]
+then
+  echo "Couldn't find Sensor installation files"
+  exit 1
+fi
+
+docker build -t rgbdemo/openni . 

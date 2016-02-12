@@ -1,0 +1,16 @@
+#!/bin/bash
+XSOCK=/tmp/.X11-unix/X0
+VBUS=/dev/bus/usb
+VDRI=/dev/dri
+
+xhost +
+docker run --privileged \
+	--name="rgbd-scanner" \
+	-it \
+	-v $XSOCK:$XSOCK:rw \
+	-v $VBUS:$VBUS:rw \
+	-v $VDRI:$VDRI:rw \
+	rgbdemo/openni:latest
+
+docker exec -d rgbd-scanner ./entrypoint.sh
+
