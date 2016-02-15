@@ -1,0 +1,2 @@
+#!/bin/bash
+docker cp rgbd-scanner:/home/docker/object1.model/mesh.ply .
